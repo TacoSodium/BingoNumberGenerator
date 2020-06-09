@@ -20,22 +20,19 @@ namespace bingoNumberGenerator
             List<int> duplicates = new List<int>();
             Random randomNumber = new Random();
 
-            for (int i = 0; i < this.UpperLimit; i++)
+            int nextNumber = randomNumber.Next(1, this.UpperLimit);
+
+            if (this.NumbersCalled.Contains(nextNumber))
             {
-
-                int nextNumber = randomNumber.Next(1, this.UpperLimit);
-
-                if (this.NumbersCalled.Contains(nextNumber))
-                {
-                    duplicates.Add(nextNumber);
-                }
-                else
-                {
-                    NumbersCalled.Add(nextNumber);
-                }
+                duplicates.Add(nextNumber);
+            }
+            else
+            {
+                NumbersCalled.Add(nextNumber);
             }
 
-            return NumbersCalled[NumbersCalled.Count];
+            int number = NumbersCalled.Count - 1;
+            return NumbersCalled[number];
         }
     }
 }

@@ -15,28 +15,19 @@ namespace bingoNumberGenerator
         //sets upper limit
         public void SetLimit()
         {
-            Console.Write("To Start:\nPlease enter an upper limit of numbers: ");
+            Console.Write("Please enter an upper limit of numbers: ");
             var input = Console.ReadLine();
-            int upperLimit;
 
-            if (int.TryParse(input, out upperLimit))
+            if (IsValid(input) == true)
             {
-                if (upperLimit < 0)
-                {
-                    Console.WriteLine("The limit must not be a negative number");
-                    Console.WriteLine();
-                    SetLimit();
-                }
-                else
-                {
-                    Generator.UpperLimit = upperLimit;
-                    Console.WriteLine();
-                    Start();
-                }
+                int upperLimit = int.Parse(input);
+                Generator.UpperLimit = upperLimit;
+                Console.WriteLine();
+                Start();
             }
             else
             {
-                Console.WriteLine("This is not a number");
+                Console.WriteLine("The limit must be a positive number");
                 Console.WriteLine();
                 SetLimit();
             }
@@ -44,11 +35,13 @@ namespace bingoNumberGenerator
 
         public void Start()
         {
-            Console.WriteLine("Welcome to the Swiburne Bingo Club");
+            Console.WriteLine("Welcome to the Swinburne Bingo Club");
             Console.WriteLine("1. Draw next number");
             Console.WriteLine("2. View all drawn numbers");
             Console.WriteLine("3. Check specific number");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("4. Check multiple numbers");
+            Console.WriteLine("5. Statistics");
+            Console.WriteLine("6. Exit");
             int userSelect = int.Parse(Console.ReadLine());
             Console.WriteLine();
 
@@ -64,22 +57,26 @@ namespace bingoNumberGenerator
                     CheckSpecNumber();
                     break;
                 case 4:
-                    Exit();
+                    CheckNumbers();
+                    break;
+                case 5:
+                    Statistics();
+                    break;
+                case 6:
+                    Console.WriteLine("Goodbye");
+                    Environment.Exit(1);
                     break;
                 default:
                     Console.WriteLine("Please enter a valid selection");
                     break;
             }
-            Console.WriteLine();
         }
 
         public void DrawNextNumber()
         {
-            int nextNumber = Generator.GenerateNumber();
-            Console.WriteLine($"The next number is...\n{nextNumber}");
-
+            Console.WriteLine($"The next number is...");
+            Console.WriteLine(Generator.GenerateNumber());
             Console.WriteLine();
-            Console.ReadLine();
             Start();
         }
 
@@ -89,20 +86,96 @@ namespace bingoNumberGenerator
             Console.WriteLine("2. Print numerically");
             int userSelect = int.Parse(Console.ReadLine());
 
-            switch (userSelect) {
+            switch (userSelect)
+            {
                 case 1:
-                    foreach ()
+                    foreach (var number in Generator.NumbersCalled)
+                    {
+                        Console.Write($"{number}\t");
+                    }
+
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Start();
+                    break;
+                case 2:
+                    Generator.NumbersCalled.Sort();
+                    foreach (var number in Generator.NumbersCalled)
+                    {
+                        Console.Write($"{number}\t");
+                    }
+
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Start();
+                    break;
+                default:
+                    Console.WriteLine("Please enter a valid selection");
+                    Console.WriteLine();
+                    ViewNumbers();
+                    break;
             }
         }
 
         public void CheckSpecNumber()
         {
+            var input = Console.ReadLine();
 
+            if (IsValid(input) == true)
+            {
+                int number = int.Parse(input);
+
+                if (Generator.NumbersCalled.Contains(number))
+                {
+                    Console.WriteLine("This number has been called");
+                }
+                else
+                {
+                    Console.WriteLine("This number hasn't been called yet");
+                }
+
+                Console.WriteLine();
+                Start();
+            }
+            else
+            {
+                Console.WriteLine("Pleas enter a positive number");
+                Console.WriteLine();
+                CheckSpecNumber();
+            }
         }
 
-        public void Exit()
+        public void CheckNumbers()
         {
+            Console.WriteLine("This are is under construction");
+            Start();
+        }
 
+        public void Statistics()
+        {
+            Console.WriteLine("This are is under construction");
+            Start();
+        }
+
+        public bool IsValid(string input)
+        {
+            int number;
+
+            if (int.TryParse(input, out number))
+            {
+                if (number < 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
