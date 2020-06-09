@@ -14,11 +14,6 @@ namespace bingoNumberGenerator
             this.NumbersCalled = new List<int>();
         }
 
-        public void SetUpperLimit(int upperLimit)
-        {
-            this.UpperLimit = upperLimit;
-        }
-
         //gernerates new number
         public int GenerateNumber()
         {

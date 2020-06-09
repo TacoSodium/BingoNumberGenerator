@@ -6,7 +6,9 @@ namespace bingoNumberGenerator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Menu newGame = new Menu();
+
+            newGame.SetLimit();
         }
     }
 }
