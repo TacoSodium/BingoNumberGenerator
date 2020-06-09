@@ -15,7 +15,7 @@ namespace bingoNumberGenerator
         }
 
         //gernerates new number
-        public int GenerateNumber()
+        public void GenerateNumber()
         {
             List<int> duplicates = new List<int>();
             Random randomNumber = new Random();
@@ -25,14 +25,12 @@ namespace bingoNumberGenerator
             if (this.NumbersCalled.Contains(nextNumber))
             {
                 duplicates.Add(nextNumber);
+                GenerateNumber();
             }
             else
             {
                 NumbersCalled.Add(nextNumber);
             }
-
-            int number = NumbersCalled.Count - 1;
-            return NumbersCalled[number];
         }
     }
 }
