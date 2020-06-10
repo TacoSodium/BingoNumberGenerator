@@ -1,23 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace bingoNumberGenerator
 {
     public class Menu
     {
         Generator Generator;
+        List<int> CheckList;
 
         public Menu()
         {
             this.Generator = new Generator();
+            this.CheckList = new List<int>();
         }
 
         //sets upper limit
         public void SetLimit()
         {
-            Console.Write("Please enter an upper limit of numbers: ");
-            var input = Console.ReadLine();
+            Console.WriteLine("Please enter an upper limit of numbers");
+            string input = Console.ReadLine();
 
             if (IsValid(input) == true)
             {
@@ -43,38 +44,54 @@ namespace bingoNumberGenerator
             Console.WriteLine("4. Check multiple numbers");
             Console.WriteLine("5. Statistics");
             Console.WriteLine("6. Exit");
-            int userSelect = int.Parse(Console.ReadLine());
+            string input = Console.ReadLine();
 
-            switch (userSelect)
+            if (IsValid(input) == true)
             {
-                case 1:
-                    Console.WriteLine();
-                    DrawNextNumber();
-                    break;
-                case 2:
-                Console.WriteLine();
-                    ViewNumbers();
-                    break;
-                case 3:
-                Console.WriteLine();
-                    CheckSpecNumber();
-                    break;
-                case 4:
-                Console.WriteLine();
-                    CheckNumbers();
-                    break;
-                case 5:
-                Console.WriteLine();
-                    Statistics();
-                    break;
-                case 6:
-                    Console.WriteLine("Goodbye");
-                    Environment.Exit(1);
-                    break;
-                default:
-                    Console.WriteLine("Please enter a valid selection");
-                    break;
+                int userSelect = int.Parse(input);
+
+                switch (userSelect)
+                {
+                    case 1:
+                        Console.WriteLine();
+                        DrawNextNumber();
+                        break;
+                    case 2:
+                        Console.WriteLine();
+                        ViewNumbers();
+                        break;
+                    case 3:
+                        Console.WriteLine();
+                        CheckSpecNumber();
+                        break;
+                    case 4:
+                        Console.WriteLine();
+                        Console.WriteLine("Enter \"stop\" when finished");
+                        CheckNumbers();
+                        break;
+                    case 5:
+                        Console.WriteLine();
+                        Statistics();
+                        break;
+                    case 6:
+                        Console.WriteLine("Goodbye");
+                        Environment.Exit(1);
+                        break;
+                    default:
+                        Console.WriteLine("Please enter a valid selection");
+                        Console.WriteLine();
+                        Start();
+                        break;
+                }
             }
+            else
+            {
+                Console.WriteLine("Please enter a valid selection");
+                Console.WriteLine();
+                Start();
+            }
+
+
         }
 
         //draws number
@@ -95,41 +112,52 @@ namespace bingoNumberGenerator
             Console.WriteLine("1. Print chronologically");
             Console.WriteLine("2. Print numerically");
             Console.WriteLine("3. Export list");
-            int userSelect = int.Parse(Console.ReadLine());
+            string input = Console.ReadLine();
 
-            switch (userSelect)
+            if (IsValid(input) == true)
             {
-                case 1:
-                    //prints chronologically
-                    foreach (var number in Generator.NumbersCalled)
-                    {
-                        Console.Write($"{number}\t");
-                    }
+                int userSelect = int.Parse(input);
 
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    Start();
-                    break;
-                case 2:
-                    //prints numerically
-                    Generator.NumbersCalled.Sort();
-                    foreach (var number in Generator.NumbersCalled)
-                    {
-                        Console.Write($"{number}\t");
-                    }
+                switch (userSelect)
+                {
+                    case 1:
+                        //prints chronologically
+                        foreach (var number in Generator.NumbersCalled)
+                        {
+                            Console.Write($"{number}\t");
+                        }
 
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    Start();
-                    break;
-                case 3:
-                    //exports list
-                    break;
-                default:
-                    Console.WriteLine("Please enter a valid selection");
-                    Console.WriteLine();
-                    ViewNumbers();
-                    break;
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Start();
+                        break;
+                    case 2:
+                        //prints numerically
+                        Generator.NumbersCalled.Sort();
+                        foreach (var number in Generator.NumbersCalled)
+                        {
+                            Console.Write($"{number}\t");
+                        }
+
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Start();
+                        break;
+                    case 3:
+                        //exports list
+                        break;
+                    default:
+                        Console.WriteLine("Please enter a valid selection");
+                        Console.WriteLine();
+                        ViewNumbers();
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Please enter a valid selection");
+                Console.WriteLine();
+                ViewNumbers();
             }
         }
 
@@ -156,7 +184,7 @@ namespace bingoNumberGenerator
             }
             else
             {
-                Console.WriteLine("Pleas enter a positive number");
+                Console.WriteLine("Please enter a positive number");
                 Console.WriteLine();
                 CheckSpecNumber();
             }
@@ -165,34 +193,46 @@ namespace bingoNumberGenerator
         //checks multiple numbers
         public void CheckNumbers()
         {
-            Console.WriteLine("This are is under construction");
-            Start();
-
             var input = Console.ReadLine();
-
-            List<int> checkList = new List<int>();
 
             if (IsValid(input) == true)
             {
                 int number = int.Parse(input);
 
-                checkList.Add(number);
-
-                if (Generator.NumbersCalled.Contains(number))
+                if (number <= Generator.UpperLimit)
                 {
-                    Console.WriteLine("This number has been called");
+                    this.CheckList.Add(number);
                 }
                 else
                 {
-                    Console.WriteLine("This number hasn't been called yet");
+                    Console.WriteLine($"Numbers must be less than or equal to {Generator.UpperLimit}");
+                }
+
+                CheckNumbers();
+            }
+            else if (input == "stop")
+            {
+                Console.WriteLine();
+
+                for (int i = 0; i < this.CheckList.Count; i++)
+                {
+                    if (Generator.NumbersCalled.Contains(this.CheckList[i]))
+                    {
+                        Console.WriteLine($"{this.CheckList[i]} has been called");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{this.CheckList[i]} hasn't been called yet");
+                    }
                 }
 
                 Console.WriteLine();
+                this.CheckList.Clear();
                 Start();
             }
             else
             {
-                Console.WriteLine("Pleas enter a positive number");
+                Console.WriteLine("Please enter a positive number or \"stop\"");
                 Console.WriteLine();
                 CheckSpecNumber();
             }
@@ -205,12 +245,12 @@ namespace bingoNumberGenerator
 
             for (int i = 0; i < Generator.NumbersCalled.Count; i++)
             {
-                double numberTotal =+ Generator.NumbersCalled[i];
+                double numberTotal = +Generator.NumbersCalled[i];
                 numberAverage = numberTotal / Generator.NumbersCalled.Count;
             }
 
             numberAverage = Math.Round(numberAverage, 2);
-            
+
             Console.WriteLine($"Total numbers drawn: {Generator.NumbersCalled.Count}");
             Console.WriteLine($"Average of numbers drawn: {numberAverage}");
             Console.WriteLine();
