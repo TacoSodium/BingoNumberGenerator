@@ -212,7 +212,7 @@ namespace bingoNumberGenerator
 
                 CheckNumbers();
             }
-            else if (input == "stop")
+            else if (input.ToUpper() == "STOP")
             {
                 Console.WriteLine();
 
