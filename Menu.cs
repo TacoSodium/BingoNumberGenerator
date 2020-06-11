@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 namespace bingoNumberGenerator
@@ -144,7 +145,8 @@ namespace bingoNumberGenerator
                         Start();
                         break;
                     case 3:
-                        //exports list
+                        Console.WriteLine();
+                        ExportList();
                         break;
                     default:
                         Console.WriteLine("Please enter a valid selection");
@@ -253,6 +255,22 @@ namespace bingoNumberGenerator
 
             Console.WriteLine($"Total numbers drawn: {Generator.NumbersCalled.Count}");
             Console.WriteLine($"Average of numbers drawn: {numberAverage}");
+            Console.WriteLine();
+            Start();
+        }
+
+        //exports list
+        public void ExportList()
+        {
+            StringBuilder stringBuild = new StringBuilder();
+            foreach (int number in Generator.NumbersCalled) {
+                stringBuild.Append(number).Append("  ");
+            }
+            string listString = stringBuild.ToString();
+
+            System.IO.File.WriteAllText("Called Numbers.txt", listString);
+
+            Console.WriteLine("Text file exported");
             Console.WriteLine();
             Start();
         }
