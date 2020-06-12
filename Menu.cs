@@ -91,8 +91,6 @@ namespace bingoNumberGenerator
                 Console.WriteLine();
                 Start();
             }
-
-
         }
 
         //draws number
@@ -134,8 +132,7 @@ namespace bingoNumberGenerator
                         break;
                     case 2:
                         //prints numerically
-                        Generator.NumbersCalled.Sort();
-                        foreach (var number in Generator.NumbersCalled)
+                        foreach (var number in Generator.SortedList)
                         {
                             Console.Write($"{number}\t");
                         }
@@ -235,8 +232,7 @@ namespace bingoNumberGenerator
             else
             {
                 Console.WriteLine("Please enter a positive number or \"stop\"");
-                Console.WriteLine();
-                CheckSpecNumber();
+                CheckNumbers();
             }
         }
 
@@ -244,10 +240,11 @@ namespace bingoNumberGenerator
         public void Statistics()
         {
             double numberAverage = 0;
+            double numberTotal = 0;
 
             for (int i = 0; i < Generator.NumbersCalled.Count; i++)
             {
-                double numberTotal = +Generator.NumbersCalled[i];
+                numberTotal += Generator.NumbersCalled[i];
                 numberAverage = numberTotal / Generator.NumbersCalled.Count;
             }
 

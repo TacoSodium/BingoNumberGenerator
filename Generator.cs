@@ -7,11 +7,13 @@ namespace bingoNumberGenerator
     {
         public int UpperLimit;
         public List<int> NumbersCalled;
+        public List<int> SortedList;
 
         public Generator()
         {
             this.UpperLimit = 90;
             this.NumbersCalled = new List<int>();
+            this.SortedList = new List<int>();
         }
 
         //gernerates new number
@@ -30,7 +32,10 @@ namespace bingoNumberGenerator
             else
             {
                 NumbersCalled.Add(nextNumber);
+                SortedList.Add(nextNumber);
             }
+            
+            SortedList.Sort();
         }
     }
 }
