@@ -268,7 +268,7 @@ namespace bingoNumberGenerator
             }
             string listString = stringBuild.ToString();
 
-            System.IO.File.WriteAllText("Called Numbers.txt", listString);
+            System.IO.File.WriteAllText("drawn_numbers.txt", listString);
 
             Console.WriteLine("Text file exported");
             Console.WriteLine();
